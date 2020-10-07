@@ -1,0 +1,139 @@
+---
+title: "課堂練習模版"
+author: "Martin"
+date: "2020-10-07"
+output: output_format
+params:
+  id: "007"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+a <- 15 # 變數設定
+b <- a # 呼叫a的值，用來設定變數b的值，相當於 b <- 15
+y <- 22
+c <- y
+```
+
+```{r}
+myName <- "Mary"
+```
+
+```{r}
+length(myName) # 查看物件本身代表幾個值。
+```
+
+```{r}
+num1 <- 5
+vNum1 <- c(2,5)
+vNum2 <- c(2, num1)
+```
+
+```{r}
+vNum1 <- vNum2
+vNum2 <- c(2, vNum1)
+```
+
+
+```{r}
+heightsOftheEntireClassroom <- c()
+
+heightsOftheEntireClassroom2 <- c()
+```
+
+```{r}
+heightOfAStudentComingInsideTheClassroom <- sample(165:200,1)
+
+```
+
+```{r}
+# method 1: concatenate 
+heightsOftheEntireClassroom <-
+  c(
+    heightsOftheEntireClassroom,
+    heightOfAStudentComingInsideTheClassroom
+  )
+```
+
+
+```{r}
+# method 2: 
+heightsOftheEntireClassroom2 <-
+  heightOfAStudentComingInsideTheClassroom
+```
+
+```{r}
+# c(5, "Mary") # non-Atomic 
+c(5, 7)
+c("John", "Mary")
+c(T,TRUE, F, FALSE)
+c(T,T,F,F)
+```
+
+```{r}
+num1<-5 # 非整數
+num2<-5L # 整數
+
+num1Vector<-c(5,6,7)
+num2Vector<-c(5L,6L,7L)
+```
+
+```{r}
+typeof(num1)
+typeof(num2)
+```
+
+```{r}
+object.size(num1)
+object.size(num2)
+```
+
+```{r}
+object.size(num1Vector)
+object.size(num2Vector)
+```
+
+```{r}
+char1Vector<-c("你好","How are you?")
+
+```
+
+```{r}
+typeof(char1Vector)
+class(char1Vector)
+```
+
+
+小明說："明天不用上課。"
+
+
+```{r}
+d1 <- '小明說："明天不用上課。"'
+d2 <- "小明說：\"明天不用上課。\""
+
+```
+
+```{r}
+dialogue <- c(
+  '小明說："明天不用上課。"',
+  '小花說："真的嗎？"'
+)
+
+dialogue # 顯示原始值的內容（含輸入時的引號）
+cat(dialogue,
+  sep = "\n"
+) # 顯示給人類看（含存出來）的值，sep="\n", 不同元素換行陳列。
+# writeLines(dialogue, "conversation.txt") # cat顯示的正是存出來樣貌。
+```
+
+```{r}
+context <- "老師說換行要寫\\n" # 請依下列情境輸入
+cat(context)
+```
+
+老師說換行要寫
