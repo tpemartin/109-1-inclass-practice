@@ -1,0 +1,348 @@
+---
+title: "homework 1"
+output: html_document
+params:
+  studentName: "你的名字"
+  studentID: "你的學號"
+---
+
+# 注意事項
+
+存檔與填寫注意事項：
+
+假設你叫王小明，學號41078392。
+
+  1. 有些同學可能家裡電腦不是utf-8設定，為防萬一，請於存檔時使用：File > save with enconding, 然後選utf-8
+
+  2. 本文檔開始的Frontmatter中，studentID（即key）其value目前為"你的學號"，以上面學號為例則必需改成"41078392"；而studentName（key）其value目前為"你的名字"，以上面名字為例則必需改成"王小明"
+  
+> 每次作業滿分10分：有寫作業於期限內上傳得3分，剩餘7分依作業準確率決定最後得分多寡，除非該題另有規定。
+
+> 前述存檔與frontmatter要求缺任何一個則扣1分。
+
+請先執以下code chunk, 引入所需packages，答案禁止引用其他套件（Package）。
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, eval=F)
+library(lubridate); library(jsonlite); library(readr)
+```
+
+# 題目
+
+
+## 1 NBA Final1920
+
+
+Jason，Louis，Allen三個人是大學同窗，熱愛打籃球，畢業後各分東西，Jason留在**台北**跟著爸爸在家族企業中磨練；Louis到**法國巴黎**SKEMA商學院唸財金；Allen目前在ESPN體育新聞台擔任數據分析師，辦公室在**紐約**。
+
+```{r, eval=FALSE, echo=F}
+GameInfo4 <- list(
+  Date = "Oct. 6",
+  StartTime = "21:00",
+  TimeZone = "ET",
+  Away = "L.A. Lakers",
+  Home = "Miami Heat"
+)
+
+NBA1920FinalG4 <- list(
+  Game4 = GameInfo4
+)
+
+NBA1920FinalG4
+```
+
+三位大男孩總會關注的NBA，今年因為疫情而延賽，也因為疫情三人無法聚在一起觀賽於是決定約好要同時收看熱火與湖人的冠軍賽，重溫往日一起守在電視機前面的大學宿舍時光。
+
+請根據以上情境，運用程式的協助來促進彼此的連結。
+
+### 1.1 Game Time
+
+參考自[NBA官網](https://stats.nba.com/schedule/)，賽程基本資料如下：
+
+- Game 4 : Tuesday, Oct. 6: L.A. Lakers at Miami Heat, 21:00 ET
+- Game 5 : Friday, Oct. 9: Miami Heat at L.A. Lakers, 21:00 ET
+- Game 6 : Sunday, Oct. 11: L.A. Lakers at Miami Heat, 19:30 ET
+- Game 7 : Tuesday, Oct. 13: Miami Heat at L.A. Lakers, 21:00 ET
+
+請建立一個List，把最後三場（即Game 5-7）的賽程資訊各自以`List`形式，彙整成一系列如同以下Game4的樣子（包含有以下幾個元素名稱`Date`, `StartTime`, `TimeZone`, `Away（客場球隊）`, `Home（主場球隊）`這幾個項目），並且分別以"Game5", "Game6", "Game7"為元素名稱儲存在`NBA1920Final567`這個List of 3物件裡。
+
+Game4 list內容
+```
+List of 5
+ $ Date     : chr "Oct. 6"
+ $ StartTime: chr "21:00"
+ $ TimeZone : chr "ET"
+ $ Away     : chr "L.A. Lakers"
+ $ Home     : chr "Miami Heat"
+```
+
+```{r ans11}
+Game5 <- list(
+  Date = "Oct. 9",
+  StartTime = "21:00",
+  TimeZone = "ET",
+  Away = "Miami Heat",
+  Home = "L.A. Lakers"
+)
+
+Game6 <- list(
+  Date = "Oct. 11",
+  StartTime = "19:30",
+  TimeZone = "ET",
+  Away = "L.A. Lakers",
+  Home = "Miami Heat"
+)
+  
+Game7 <- list(
+  Date = "Oct. 13",
+  StartTime = "21:00",
+  TimeZone = "ET",
+  Away = "Miami Heat",
+  Home = "L.A. Lakers"
+)
+  
+NBA1920Final567 <- list(
+  "Game5"=Game5 ,
+  "Game6"=Game6 ,
+  "Game7"=Game7 
+)
+
+
+# NBA1920Final567
+```
+
+
+### 1.2 Ball Time
+
+對list裡有命名的元素我們可以使用$來取出元素值，如：
+```{r}
+exampleList <- list(
+  name="John",
+  courses = list(
+    coursename="Microeconomics",
+    grade=78
+  )
+)
+
+exampleList$courses$grade
+```
+exampleList$courses$grade 可以取出exampleList底下的courses元素值之再底下的grade元素值。
+
+
+考量第四戰熱火輸球，湖人聽牌，原本想等到第七戰才夠刺激，三人決定提前一起收看第五場比賽，請將三人準備要一起觀賽的表定賽程資訊(包含日期`Date`與開賽時間`StartTime`, 還有`TimeZone`）從List裡面抽出來，另存為一個atomic vector，叫做`Game5Time`。
+
+```{r ans12}
+c(NBA1920Final567$Game5$Date, NBA1920Final567$Game5$StartTime, NBA1920Final567$Game5$TimeZone) -> Game5Time
+
+# Game5Time
+```
+
+### 1.3 paste0
+
+前一題Game5Time是分開的三個時間資訊，我們可以用paste0函數適當的將它合成一個可讓lubridate parsing的文字"Oct. 9 2020 21:00"。以下是paste0函數的使用範例：
+```{r}
+a <- c("我叫", "她叫", "我是")
+b <- c("小明", "小美", "哥哥")
+paste0(a, "~~~", b)
+```
+對於atomic vector你可以用[[x]]來取出向量中的第x個元素值，如：
+```{r}
+a[[1]]
+b[[1]]
+```
+請把Game5Time的資訊parsing成為Date/Time class（POSIXct POSIXt) 存在G5TimeParsed物件。
+
+```{r ans13}
+G5TimeParsed <- 
+  mdy_hm(paste0(Game5Time[[1]], " 2020 ", Game5Time[[2]]),
+         tz="America/New_York")
+# G5TimeParsed
+```
+
+
+### 1.4 Time Stamp
+
+跳球的那個瞬間（即前一題的時間），Allen傳了訊息到三個人的WhatsApp群組，「今晚，我想再來點得分40+的Jimmy Bulter，佐大三元～」
+
+請問Allen發送訊息，當下遠在台北的Jason，手機跳出通知，時間戳記（Timestamp）是顯示何年何月何日，幾點幾分？請將該內容存在一個物件，是為`TpeJason`。
+
+```{r ans14}
+with_tz(G5TimeParsed, tzone = "Asia/Taipei") -> TpeJason
+
+# TpeJason
+```
+
+### 1.5 Later Time
+
+Louis臨時被要求整理財報資料，而在比賽開始後的15分鐘出現才回覆了Allen的訊息，請將他回覆訊息的時間，存為`ParisLouis`R物件。(hint: lubridate::minutes()函數)
+
+```{r ans15}
+with_tz(TpeJason, tzone = "Europe/Paris") + minutes(15) -> ParisLouis
+
+# ParisLouis
+```
+
+## 2. Factor
+
+執行以下程式產生會隨機產生500個中文正楷數字1-9存在chNubmers, 及隨機個數的中文0-9存在chNumbersWith0。
+
+```{r data2}
+ch1to9 <- c("壹","貳","參","肆","伍","陸","柒","捌","玖")
+ch0to9 <- c("零", ch1to9)
+chNumbers <- sample(ch1to9, 500, replace = T)
+randomLength <- sample(300:1000,1)
+chNumbersWith0 <- sample(ch0to9, randomLength, replace=T)
+```
+
+```{r}
+chNumbers
+chNumbersWith0
+```
+
+```{r}
+class(chNumbers)
+class(chNumbersWith0)
+```
+
+```{r}
+fct_chNumbers <- 
+  factor(chNumbers, levels=ch1to9)
+
+fct_chNumbersNoLevelsSetup <-
+  factor(chNumbers)
+```
+
+```{r}
+fct_chNumbers <- 
+  factor(chNumbers, levels=ch1to9)
+
+fct_chNumbersWith0 <- 
+  factor(chNumbersWith0,
+         levels=ch0to9)
+```
+
+```{r}
+head(fct_chNumbers)
+head(fct_chNumbersWith0)
+```
+
+
+```{r}
+ch1to9
+ch0to9
+```
+
+
+```{r}
+head(fct_chNumbers)
+```
+```{r}
+head(fct_chNumbersNoLevelsSetup)
+```
+
+
+```{r}
+class factor = factor( class character, levels=...)
+```
+
+
+### 2.1 
+請計算chNumbers裡500個數字的加總並存在sumChNumbers物件。（hint: sum(a)可以把numeric class a向量裡的元素加總）
+
+```{r ans21}
+fct_chNumbers <- 
+  factor(
+    chNumbers,
+    levels = ch1to9
+  )
+sumChNumbers <- sum(as.integer(fct_chNumbers))
+
+# sumChNumbers
+```
+
+### 2.2 
+請計算chNumbersWith0裡數字的加總並存在sumChNumbersWith0物件。
+
+```{r ans22}
+fct_chNumbersWith0 <- 
+  factor(
+    chNumbersWith0,
+    levels = ch0to9
+  )
+sumChNumbersWith0 <- sum(as.integer(fct_chNumbersWith0)) - length(chNumbersWith0)
+
+# sumChNumbersWith0
+```
+
+
+## 3. Escape
+
+### 3.1 Escape key
+
+有一個物件aboutEscape它只有一個字串文素值，請定義aboutEscape，使得cat(aboutEscape)會有如下的螢幕顯示：（何時換行也要符合）
+
+```
+在字串輸入時我們要用成對的"或'將文字包起來，R才會知道它是字串。
+字串在輸入時，若要cat時在螢幕看起來有換行則必需輸入\n，其中\稱為Escape key，它讓後面字元跳脫了它在電腦的原始含意。
+```
+
+```{r ans31}
+escapeText <- "在字串輸入時我們要用成對的\"或\'將文字包起來，R才會知道它是字串。\n字串在輸入時，若要cat時在螢幕看起來有換行則必需輸入\\n，其中\\稱為Escape key，它讓後面字元跳脫了它在電腦的原始含意。"
+
+# escapeText
+```
+
+### 3.2 Dear Mary
+執行以下程式會隨機抽出一名學生的作業訊息存在student這個list裡。
+```{r data3}
+student <- 
+  list(
+    name=sample(c("John","Mary","Ken","Jane"),1),
+    deadline=sample(
+      seq(from=ymd_hms("2020-10-25 08:00:00", tz="Asia/Taipei"),
+          to=ymd_hms("2020-11-03 08:00:00", tz="Asia/Taipei"), by=60*60),1
+    )
+  )
+student
+```
+
+請針對抽出來的學生建立一個dearStudent物件，它只有一個字串元素值，且cat(dearStudent)螢幕會顯示，如下訊息：
+
+```
+Dear Mary:
+
+  貼心提醒您，作業上傳截止時間是2020-11-01T10:00:00+0000。
+
+敬祝學安
+
+你的貼心學伴巴西利bot silly
+```
+這裡2020-11-01T10:00:00+0000是UTC時間文字寫法。Mary及2020-11-01T10:00:00+0000要依你抽出的student內容變動而能變動，且每行中都有空一行。（hint: $，paste0）
+
+```{r ans32}
+dearStudent <- paste0("Dear ",student$name,":\n\n  貼心提醒您，作業上傳截止時間是",format_ISO8601(with_tz(student$deadline, tzone="UTC"),usetz = T),"。\n\n敬祝學安\n\n你的貼心學伴巴西利bot silly
+")
+
+# dearStudent
+```
+
+
+
+## 4. Handling error messages
+
+執行以下程式讓global environment出現location1, meta兩個物件。然而這程式對一台剛裝好基礎R的機器會有錯誤訊息，請修正它（最後一行comment line請勿更動）： 
+
+```{r ans4}
+download.file(url="https://www.dropbox.com/s/rykdkmz27o1t4dh/IMG_2027.JPG?dl=1",
+              destfile="hw1.jpg")
+install.packages("magick") # 只要在library(magick)一行前
+install.packages("exiftoolr") # 只要在library(exiftoolr)一行前
+library(magick) # 處理圖片的套件
+location1 <- image_read("hw1.jpg")
+location1
+library(exiftoolr) # 讀取圖片詳細資訊的套件
+install_exiftool() # 只要在library(exiftoolr)一行後
+meta <- exif_read("hw1.jpg")
+
+# list(location1, meta)
+```
+

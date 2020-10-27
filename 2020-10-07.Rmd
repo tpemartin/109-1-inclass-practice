@@ -39,7 +39,7 @@ vNum1 <- vNum2
 vNum2 <- c(2, vNum1)
 ```
 
-
+# c() practice 
 ```{r}
 heightsOftheEntireClassroom <- c()
 
@@ -66,6 +66,8 @@ heightsOftheEntireClassroom <-
 heightsOftheEntireClassroom2 <-
   heightOfAStudentComingInsideTheClassroom
 ```
+
+## 
 
 ```{r}
 # c(5, "Mary") # non-Atomic 

@@ -1,0 +1,103 @@
+---
+title: "課堂練習模版"
+author: "Martin"
+date: "2020-10-14"
+output: output_format
+params:
+  id: "007"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+"\u0928\u092e\u0938\u094d\u0924\u0947 \u0926\u0941\u0928\u093f\u092f\u093e"
+```
+
+```{r}
+num <- c(1.5, 2, 3)
+int <- c(1L, 3L, -2L)
+char <- c("1.5","2","3")
+logi <- c(T,T,F)
+
+typeof(num)
+typeof(int)
+typeof(char)
+typeof(logi)
+```
+
+```{r}
+class(num)
+class(int)
+class(char)
+class(logi)
+```
+
+```{r}
+"1"+"1.5"
+1+1.5
+```
+
+```{r}
+class("1")
+class("1.5")
+```
+
+```{r}
+as.numeric("1")
+```
+
+```{r}
+a <- "1"
+a <- 1
+as.numeric(a) -> a
+a+4
+```
+
+
+# factor
+
+## character
+```{r haha}
+# 10位學生的主系
+majors10_char <- c('經濟學系','社會學系','社會學系','經濟學系','經濟學系','社會學系','經濟學系','經濟學系','經濟學系','社會學系')
+
+typeof(majors10_char)
+class(majors10_char)
+```
+
+## factor
+```{r}
+# 10位學生的主系
+majors10_factor <- 
+  factor(
+  c('經濟學系','社會學系','社會學系','經濟學系','經濟學系','社會學系','經濟學系','經濟學系','經濟學系','社會學系')
+  )
+# OR
+majors10_factor <- 
+  factor(
+    majors10_char
+  )
+
+typeof(majors10_factor)
+class(majors10_factor)
+```
+
+```{r}
+majors10_char
+majors10_factor
+
+```
+
+```{r}
+as.integer(majors10_factor)
+```
+
+```{r}
+a <- factor(c("一","二","三"))
+a
+```
+
