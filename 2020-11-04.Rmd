@@ -1,0 +1,72 @@
+---
+title: "課堂練習模版"
+author: "Martin"
+date: "2020-11-04"
+output: output_format
+params:
+  id: "007"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+listExample <- 
+  list(
+    student = "小明", 
+    學期 = list(
+      `108-1` = list(
+        list(name = "個體經濟學", 
+    teacher = "Alice", grade = 85)), 
+    `108-2` = list(list(name = "總體經濟學",
+        teacher = "Mark", grade = 78)
+        )
+     )
+    )
+# 有多少位置可選：
+length(listExample)
+```
+
+```{r}
+gender = "女"
+school = "國立臺北大學"
+title = "問 泰昇補習班打工"
+content = "有在板上看到過很多北大附近補習班打工不推的
+不過好像還沒看到泰昇這間的評價
+想請問大家還可以嗎🙏"
+tags = 
+timestamp =
+```
+
+```{r}
+photos = 
+"https://www.dcard.tw/f/male.jpg",
+"https://www.dcard.tw/f/female.jpg"
+```
+
+```{r}
+
+America_Vote <- list(
+  time = c(ymd_hm("2020-11-04 14:46"),ymd_hm("time2"),
+  trump = c("213", "215"),
+  biden = c("224", "230"),
+  takesall = "270"
+)
+
+
+```
+
+```{r}
+America_Vote2 <- list(
+  time = ymd_hm("time2"),
+  trump = "215",
+  biden = "230",
+  takesall = "270"
+)
+
+
+```
+

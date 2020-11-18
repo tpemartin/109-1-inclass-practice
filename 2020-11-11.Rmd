@@ -1,0 +1,47 @@
+---
+title: "課堂練習模版"
+author: "Martin"
+date: "2020-11-11"
+output: output_format
+params:
+  id: "007"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+AA = c(Mary=176, John=188, Jenny= 165, Kate=170)
+LL = list(
+  Mary=list(176,"Taipei"),
+  John=list(188,"New Taipei"),
+  Jenny=list(165,"Taichung"),
+  Kate=list(170,"Hualien")
+)
+```
+
+## extract 1 element
+
+```{r}
+AA[[1]]
+AA[1]
+```
+
+
+```{r}
+str(LL)
+```
+```{r}
+str(LL[1])
+```
+
+
+```{r}
+LL[[1]]
+LL[1]
+```
+
+

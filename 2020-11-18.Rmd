@@ -1,0 +1,84 @@
+---
+title: "課堂練習模版"
+author: "Martin"
+date: "2020-11-18"
+output: output_format
+params:
+  id: "007"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+https://vimeo.com/480624506/a87e708b6b
+
+```{r}
+example <- list(
+  name=c("小明","小花","小新","美美"),
+  height=c(175,166,170,160),
+  weight=c(77,NA,60,43),
+  birthday=lubridate::ymd(c("1998-03-11","1999-12-22","1995-08-22","2001-10-10")),
+  hobby=c("美食 旅遊","旅遊 時尚","3C 美食","音樂 旅遊"),
+  residence=c("Taipei","New Taipei","Taichung","Kaohsiung"),
+  allowance=factor(c("0-1000","1001-2000","2000+","1001-2000")),
+  bloodType=c("A","B","B","O")
+)
+```
+
+
+df_example <- as.data.frame(example)
+```{r}
+df_example <- as.data.frame(example)
+```
+
+## 4.4.1
+
+```{r}
+library(purrr)
+tr_example <- transpose(example)
+str(tr_example)
+```
+
+```{r}
+tr_example <- purrr::transpose(example)
+str(tr_example)
+```
+
+```{r}
+tr_tr_example <- purrr::transpose(tr_example)
+df_example2 <- as.data.frame(tr_tr_example)
+```
+
+
+```{r}
+library(purrr)
+map(tr_tr_example,
+    unlist) -> tr_tr_example2
+df_example3 <- as.data.frame(tr_tr_example2)
+```
+
+###
+
+```{r}
+# 使用list的工具
+df_example$name[c(1,4)]
+
+# 使用data frame的延伸工具`[.row, .column]`
+df_example[c(1,4), "name"]
+df_example[c(1,4), 1]
+df_example[c(1,4), c(T, rep(F,7))]
+
+df_example[c(1),1:8]
+View(df_example[1, ])
+df_example[1,][[5]]
+df_example[1,][5]
+df_example[, "name"]
+```
+
+```{r}
+
+```
+

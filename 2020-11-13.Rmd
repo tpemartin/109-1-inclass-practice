@@ -1,0 +1,464 @@
+---
+title: "課堂練習模版"
+author: "Martin"
+date: "2020-11-13"
+output: output_format
+params:
+  id: "007"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+a <- c(2, 5, 7)
+a[[4]]
+length(a)
+```
+```{r}
+a[[4]] <- 8
+print(a)
+```
+
+element names = features
+
+```{r}
+blue1 = list(
+  item="番茄牛丼",
+  quantity=1
+)
+blue2 = list(
+  item="起司番茄牛丼",
+  quantity=1
+)
+
+order_value=list(
+  blue1,
+  blue2
+)
+
+library(lubridate)
+oneOrder = list(
+  restaurant="すき家 Sukiya (新北三峽店)", # restauran_value
+  date=mdy("Nov 10, 2020"), #date_value
+  order=order_value,
+  total=328 #total_value
+)
+
+```
+
+
+```{r}
+restaurant = "すき家 Sukiya (新北三峽店)"
+date = lubridate::mdy("Nov 10, 2020")
+order = list(
+  list(
+    item="蕃茄牛丼",
+    quantity=1
+  ) # 這裡少了一筆 "起司蕃茄牛丼"
+)
+total = 328
+oneOrder <- list(
+  "restaurant"=restaurant,
+  "date"=date,
+  "order"=order,
+  "total"=total
+)
+```
+
+```{r}
+str(oneOrder)
+View(oneOrder)
+```
+
+Add
+```{r}
+#step 1 retrieve non-existence
+oneOrder[["order"]][[2]]
+#step 2 assign value
+blue2 = list(
+  item="起司番茄牛丼",
+  quantity=1
+)
+oneOrder[["order"]][[2]] <- blue2
+```
+
+# 4.2.2
+
+```{r}
+a <- c(2, 5, 7)
+a[c(4,5)] <- c(8, 12)
+
+print(a)
+```
+
+```{r}
+length(oneOrder$order)
+blue3 <- list(item="牛丼飯",quantity=1)
+
+blue4 <- oneOrder$order[[1]]
+blue4$item <- "豬排飯"
+blue4$quantity <- 1
+```
+
+```{r}
+oneOrder$order[c(3,4)] <- list(blue3, blue4)
+```
+```{r}
+class(oneOrder$order)
+```
+
+```{r}
+str(oneOrder)
+```
+```{r}
+# 取出目前已有的子元素一個當模版
+secondItem <- oneItem <- oneOrder$order[[1]]
+
+oneItem <- oneOrder$order[[1]]
+secondItem <- oneOrder$order[[1]]
+
+oneItem$item <- "牛丼飯"
+oneItem$quantity <- 1
+secondItem$item <- "豬排飯"
+secondItem$quantity <- 1
+
+oneOrder$order[newOrders] <- list(
+  oneItem, secondItem
+)
+```
+
+# 4.2.3
+
+```{r}
+LL0 <- LL <- list(
+  "Mary was born on", 
+  ymd("1995-7-1"),
+  "John was born on",
+  ymd("1997-10-27")
+  )
+LL[[2]]
+LL[[2]] <- ymd("1995-7-8")
+print(LL)
+```
+
+```{r}
+View(oneOrder)
+```
+
+```{r}
+oneOrder[["order"]][[1]][["quantity"]] <- 2
+```
+
+```{r}
+LL <- LL0
+LL
+```
+```{r}
+LL[c(2,4)] <-  list(ymd("1995-7-8"), ymd("1997-10-17"))
+```
+
+```{r}
+LL
+```
+
+
+```{r}
+class(LL)
+```
+
+```{r}
+oneOrder =list(....)
+anotherOrder
+```
+
+```{r}
+anotherOrder <- 
+  list(
+    restaurant="古橋飲食店",
+    date=lubridate::mdy("Nov 9, 2020"),
+    order=list(
+      list(
+        item="古早味排骨飯",
+        quantity=1
+      )
+    ),
+    total=89
+  )
+thirdOrder <-
+  list(
+    restaurant="Tijo Kitchen",
+    date=lubridate::mdy("Nov 8, 2020"),
+    order=list(
+      list(
+        item="韓式泡菜黑咖哩飯",
+        quantity=1
+      )
+    )
+  )
+```
+
+
+```{r}
+allMyOrders = 
+  list(
+  oneOrder,
+  anotherOrder,
+  thirdOrder
+  )
+```
+
+```{r}
+allMyOrders = 
+  list(
+    oneOrder
+  )
+allMyOrders[[2]] <- anotherOrder
+allMyOrders[[3]] <- thirdOrder
+```
+
+```{r}
+allMyOrders = 
+  list(
+    oneOrder
+  )
+allMyOrders[c(2,3)] <- list( anotherOrder, thirdOrder)
+```
+
+
+```{r}
+allMyOrders
+```
+
+# 4.2.5
+
+```{r}
+a <- c("L", "K", "Z")
+a <- a[-2]
+print(a)
+```
+```{r}
+a <- c("L", "K", "Z")
+a <- a[-c(1,3)]
+print(a)
+```
+
+
+
+```{r}
+LL <- list('a', T, 183)
+LL[c(1,3)] <- NULL 
+print(LL) 
+```
+
+```{r}
+a0 <- a <- c(John=178, Mary=170, Hanson=180)
+names(a)
+
+names(a) <- c("John", "Kate", "Hason")
+names(a)
+
+a <- a0
+names(a)[[2]] <- "May"
+names(a)
+```
+
+```{r}
+?sum
+```
+
+# 4.3
+
+```{r}
+a <- c(2, 3, 5)
+b <- c(4,-1, 3)
+```
+
+```{r}
+a+b
+a-b
+a*b
+a/b
+```
+
+```{r}
+5 %% 3
+11 %% 4
+```
+```{r}
+a <- sample(1:15, 5, replace=T)
+a
+a %% 2
+```
+```{r}
+a
+```
+
+```{r}
+a <- c(2, 3, 5)
+b <- c(4,-1, 3)
+```
+
+```{r}
+a**b
+```
+
+
+
+```{r}
+a %% b
+# 相當於
+c(2%%4, 3%%(-1), 5%%3)
+
+a ** b
+```
+
+```{r}
+a ** c(3, 3, 3)
+```
+```{r}
+a ** c(3)
+a ** 3
+```
+
+```{r}
+a
+length(a)
+```
+```{r}
+b = c(c(3), c(3), c(3))
+b
+```
+```{r}
+a**3
+a**c(3,3,3)
+```
+
+
+```{r}
+set.seed(20389)
+a2 <- sample(1:20, 7)
+print(a2)
+```
+```{r}
+b2 <- c(5, 8, -1, 7, 6)
+
+length(a2)
+length(b2)
+```
+```{r}
+c(b2, b2)
+```
+
+```{r}
+a2
+b2
+
+a2/b2
+```
+
+```{r}
+a2/c(b2, 5, 8)
+```
+
+```{r}
+paste0(
+  c("我叫"), c("小明","小美")
+)
+paste0(
+  c("我叫","我叫"), c("小明","小美")
+)
+```
+
+# 4.4
+
+```{r}
+example <- list(
+  name=c("小明","小花","小新","美美"),
+  height=c(175,166,170,160),
+  weight=c(77,NA,60,43),
+  birthday=lubridate::ymd(c("1998-03-11","1999-12-22","1995-08-22","2001-10-10")),
+  hobby=c("美食 旅遊","旅遊 時尚","3C 美食","音樂 旅遊"),
+  residence=c("Taipei","New Taipei","Taichung","Kaohsiung"),
+  allowance=factor(c("0-1000","1001-2000","2000+","1001-2000")),
+  bloodType=c("A","B","B","O")
+)
+```
+
+```{r}
+as.data.frame(example) -> example
+```
+
+data.frame:
+
+  * each element has the same length.
+  
+  * each element value is an atomic vector.
+  
+```{r}
+str(example)
+```
+
+atomic vector L  > atomic vector R
+
+  * numeric class
+  
+  * date/time class
+  
+  * ordered factor class
+  
+```{r}
+example$height
+```
+
+```{r}
+example$height >= 170
+```
+
+```{r}
+pick_above170 <- example$height >= c(170, 170, 170, 170)
+```
+
+
+```{r}
+example$name[c(T, F, T, F)]
+example$weight[pick_above170]
+example$bloodType[pick_above170]
+```
+時間比較
+```{r}
+class(example$birthday)
+```
+
+```{r}
+example$birthday
+```
+
+
+```{r}
+library(lubridate)
+example$birthday >= ymd("1998-01-01")
+```
+```{r}
+pick_after98 <- 
+  (example$birthday >= lubridate::ymd("1998-01-01"))
+```
+
+```{r}
+example$weight
+```
+
+
+```{r}
+example$weight[pick_after98]
+```
+
+```{r}
+example
+```
+
+
+

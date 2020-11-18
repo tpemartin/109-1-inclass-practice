@@ -1,0 +1,274 @@
+---
+title: "課堂練習模版"
+author: "Martin"
+date: "2020-10-28"
+output: output_format
+params:
+  id: "007"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Your code
+
+```{r}
+vectorExample <- c("小明", "小英", "大雄")
+
+# 有多少位置可選：
+
+vectorExampleWithNames <- c(
+  "p1"="小明", "p2"="小英", "p3"="大雄")
+
+# 有多少位置可選：
+length(vectorExample)
+
+```
+
+```{r}
+vectorExample
+vectorExampleWithNames
+names(vectorExampleWithNames)
+```
+```{r}
+vectorExample[[3]]
+```
+```{r}
+vectorExampleWithNames[[3]]
+vectorExampleWithNames[["p3"]]
+```
+
+```{r}
+listExample <- list(student = "小明", 學期 = list(`108-1` = list(list(name = "個體經濟學", 
+    teacher = "Alice", grade = 85)), `108-2` = list(list(name = "總體經濟學", 
+    teacher = "Mark", grade = 78))))
+# 有多少位置可選：
+length(listExample)
+```
+
+```{r}
+str(listExample, 1)
+```
+```{r}
+listExample[[1]]
+listExample[["student"]]
+```
+
+```{r}
+listExample[[2]]
+listExample[["學期"]]
+```
+
+```{r}
+listExample$student
+listExample$學期
+```
+
+```{r}
+vectorExample
+vectorExample[c(1, 3)]
+```
+
+```{r}
+vectorExample[c(1)]
+vectorExample[1]
+vectorExample[[1]]
+```
+```{r}
+vectorExampleWithNames[c(1,3)]
+```
+
+
+```{r}
+vectorExampleWithNames[c("p1","p3")]
+```
+```{r}
+vectorExampleWithNames
+```
+```{r}
+vectorExampleWithNames[c(T, F, T)]
+vectorExampleWithNames[c(TRUE, FALSE, T)]
+```
+
+```{r}
+pickByNumber <- c(1,3)
+pickByName <- c("p1","p3")
+c(T, F, T) -> pickByLogical
+```
+
+```{r}
+vectorExampleWithNames[pickByLogical]
+vectorExampleWithNames[pickByName]
+vectorExampleWithNames[pickByNumber]
+```
+
+
+```{r}
+vectorExampleWithNames[c(1, "p3")]
+```
+
+```{r}
+str(listExample, 1)
+```
+
+```{r}
+listExample[c(1,2)]
+listExample[c("student","學期")]
+listExample[c(T,T)]
+```
+
+```{r}
+listExample[1]
+```
+
+```{r}
+listExample[[1]]
+```
+
+```{r}
+numVector <- c(2, 3, 6, -1, 4, 2, 6)
+numVector[c(1, 4)]
+```
+
+```{r}
+select1 <- numVector[c(1, 4)]
+select1
+```
+
+```{r}
+select2 <- select1[[1]]
+select2
+```
+
+```{r}
+# 相當於
+numVector[c(1, 4)][[1]]
+```
+
+```{r}
+majorsStudent <- c("經濟學系", "經濟學系", "社會學系", "社工系", "經濟學系")
+namesStudent <- c("小英", "小美", "大雄", "阿華", "阿尼")
+genderStudent <- c("F", "F", "M", "F", "M")
+```
+
+```{r}
+majorsStudent
+genderStudent
+```
+```{r}
+pickEconMale <- c(F, F, F, F, T)
+namesStudent[pickEconMale]
+```
+
+
+```{r}
+pickEcon <- c(T, T, F, F, T)
+namesStudent[pickEcon]
+genderStudent[pickEcon]
+```
+
+```{r}
+whichHasEcon <-  which(pickEcon)
+```
+
+```{r}
+pickEconNum<- c(1,2,5)
+namesStudent[pickEconNum]
+genderStudent[pickEconNum]
+```
+
+
+```{r}
+pickEcon <- majorsStudent == "經濟學系"
+namesEcon <- namesStudent[pickEcon]
+genderEcon <- genderStudent[pickEcon]
+```
+
+```{r}
+namesEcon
+genderEcon
+```
+```{r}
+namesEcon[[3]]
+```
+```{r}
+pickEcon <- majorsStudent == "經濟學系"
+namesStudent[pickEcon]
+genderStudent[pickEcon]
+```
+
+```{r}
+namesStudent[pickEcon][[3]]
+```
+
+```{r}
+today <- list(list("台北市", c(highest_temp = 25), c(lowest_temp = 18)), list("新北市", 
+    c(highest_temp = 24), c(lowest_temp = 15)))
+tomorrow <- list(list("台北市", c(highest_temp = 25), c(lowest_temp = 18)), list("新北市", 
+    c(highest_temp = 24), c(lowest_temp = 15)))
+
+weather <- list(today, tomorrow)
+
+print(weather)
+```
+
+
+```{r}
+str(weather,1)
+str(weather,2)
+str(weather,3)
+```
+
+```{r}
+weather[[1]]
+```
+
+
+```{r}
+weather[[1]][[1]][[2]][["highest_temp"]]
+weather[[2]][[1]][[2]][["highest_temp"]]
+
+```
+```{r}
+listExample[["學期"]][["108-2"]][[1]][["teacher"]]
+listExample[["學期"]][["108-2"]][[1]][["teacher"]]
+listExample$學期[["108-2"]][[1]]$teacher
+```
+
+```{r}
+listExample$學期[["108-2"]][[1]]$teacher <- "Jason"
+listExample$學期[["108-2"]][[1]][c('name',"grade")]
+```
+```{r}
+listExample$學期[["108-2"]][[1]][c('name',"grade")]
+
+```
+
+```{r}
+listExample$學期[["108-2"]][[1]]$name <- "統計學"
+listExample$學期[["108-2"]][[1]]$grade <- 80
+```
+
+```{r}
+listExample$學期[["108-2"]][[1]][c('name',"grade")] <- list(
+  name="總體經濟學",
+  grade=78
+)
+```
+
+```{r}
+original <- listExample$學期[["108-2"]][[1]][c('name',"grade")]
+class(original)
+str(original)
+```
+
+```{r}
+list(
+  name="總體經濟學",
+  grade=78
+)
+```
+
+
+
