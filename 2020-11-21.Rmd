@@ -1,0 +1,513 @@
+---
+title: "課堂練習模版"
+author: "Martin"
+date: "2020-11-21"
+output: output_format
+params:
+  id: "007"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 4.4 Data Frame
+
+後面小節使用的範例：
+
+```{r example}
+example <- list(
+  name=c("小明","小花","小新","美美"),
+  height=c(175,166,170,160),
+  weight=c(77,NA,60,43),
+  birthday=lubridate::ymd(c("1998-03-11","1999-12-22","1995-08-22","2001-10-10")),
+  hobby=c("美食 旅遊","旅遊 時尚","3C 美食","音樂 旅遊"),
+  residence=c("Taipei","New Taipei","Taichung","Kaohsiung"),
+  allowance=factor(c("0-1000","1001-2000","2000+","1001-2000")),
+  bloodType=c("A","B","B","O")
+)
+```
+
+
+## 4.5 Relational Operators
+
+這節在介紹**產生**「要/不要」向量的常見手法。
+
+```{r}
+example <- list(
+  name=c("小明","小花","小新","美美"),
+  height=c(175,166,170,160),
+  weight=c(77,NA,60,43),
+  birthday=lubridate::ymd(c("1998-03-11","1999-12-22","1995-08-22","2001-10-10")),
+  hobby=c("美食 旅遊","旅遊 時尚","3C 美食","音樂 旅遊"),
+  residence=c("Taipei","New Taipei","Taichung","Kaohsiung"),
+  allowance=factor(c("0-1000","1001-2000","2000+","1001-2000")),
+  bloodType=c("A","B","B","O")
+)
+```
+
+```{r}
+str(example)
+df_example <- as.data.frame(example)
+```
+
+### 比較
+
+`>`,`<`,`<=`,`>=`: 分別為大於、小於、小於等於、大於等於
+
+  * 數字比較
+  
+  * 時間比較
+  
+  * 可排序類別資料比較
+
+***
+
+##### 數字比較{-}
+
+###### example裡誰的身高大於等於170{-}
+
+```{r}
+example$name[c(T, F, T, F)]
+```
+
+```{r pick_above170}
+str(example[c("name","height")])
+
+pick_above170 <- example$height >= 170
+pick_above170
+example$height
+c(175, 166, 170, 160) >= 170
+
+example$name[pick_above170]
+```
+
+##### 時間比較: {-}
+
+###### example裡誰1998年(含)以後出生{-}
+
+```{r}
+example$birthday
+class(example$birthday)
+typeof(example$birthday)
+```
+
+```{r}
+print(example[c("name","birthday")])
+
+pick_after98 <- example$birthday >= lubridate::ymd("1998-01-01")
+pick_after98
+example$name[pick_after98]
+```
+
+##### 可排序類別資料比較: {-}
+
+###### example裡誰零用錢大於1000:{-}
+
+```{r}
+example$allowance > "2000+"
+```
+
+```{r}
+example$allowance  %in%  c("1001-2000", "2000+")
+```
+
+
+```{r}
+print(example[c("name","allowance")])
+class(example$allowance)
+levels(example$allowance)
+pick_allowanceOver1000 <- example$allowance >= "1001-2000"
+example$name[pick_allowanceOver1000]
+```
+
+<div class="alert alert-info">
+factor資料可進一步分成可排序，與不可排序的，如：  
+  * 可排序： 以年齡層區分的類別，以所得級距區分的類別等。  
+  * 不排序： 性別，學系等。
+
+factor的設定內定為不可排序資料，如要改成可排序類別資料得特別設定。以先前已處理好的example$allowance 為例：
+
+```{r}
+example$allowance <- 
+  ordered(example$allowance)
+levels(example$allowance)
+```
+
+```{r}
+example$allowance
+```
+```{r}
+allowance2 <- 
+  factor(
+    c("0-1000", "1001-2000", "2000+", "1001-2000"),
+    levels = c("1001-2000", "0-1000",  "2000+")
+  )
+allowance2 <- ordered(allowance2)
+allowance2
+```
+
+
+或在設定為factor時即把levels排好，並**ordered=T**:
+```{r}
+example$allowance <-
+  factor(
+    example$allowance,
+    levels=c("0-1000", "1001-2000", "2000+"),
+    ordered = T # 設定為可排序factor
+  )
+```
+
+```{r}
+pick_allowanceOver1000 <- example$allowance >= "1001-2000"
+pick_allowanceOver1000
+example$name[pick_allowanceOver1000]
+```
+</div>
+
+### 相等，屬於
+
+`==`: 等於  
+
+`!=`: 不等於
+
+<div class="alert alert-info">
+`==`與`!=`可使用於任何class的atomic vector, 它是在比較兩邊向量elementwise speaking下，元素值是否相同。
+</div>
+
+
+###### example裡誰血型B型{-}
+```{r pick_bloodB}
+print(example[c("name","bloodType")])
+
+pick_bloodB <- (example$bloodType == "B")
+pick_bloodB
+example$name[pick_bloodB]
+```
+= , <- 是一樣的
+```{r}
+example$bloodType =  "B"
+example$bloodType
+
+df_example$bloodType = "B"
+df_example$bloodType
+```
+
+```{r}
+7 %% 3
+```
+
+
+<div class="alert alert-success">
+```{r}
+sequenceNums <- c(11, 6, 8, 11, 12, 11, 3, 7, 10, 8)
+sequenceNums %% 2
+pick_evens <- (sequenceNums %% 2) == 0
+pick_evens
+sequenceNums[pick_evens]
+```
+創造可留下偶數的「要/不要」向量pick_evens。
+</div>
+
+*** 
+
+還有一個常用的關聯運算：
+
+`%in%`: 屬於
+
+  * 左邊元素「一一」檢視是不是屬於右邊元素集合。
+
+```{r}
+x <- c(1,5,8)
+y <- c(5,8)
+
+# x裡的元素值是不是屬於y集合
+x %in% y
+```
+
+###### example裡誰來自大台北{-}
+
+```{r}
+print(example[c("name","residence")])
+
+  set_TaipeiMetro <- c("Taipei","New Taipei")
+pick_fromTaipeiMetro <- example$residence %in% set_TaipeiMetro
+pick_fromTaipeiMetro
+example$name[pick_fromTaipeiMetro]
+
+pick_not_fromTaipeiMetro <- !(example$residence %in% set_TaipeiMetro)
+```
+
+```{r}
+pick_fromTaipeiMetro
+pick_not_fromTaipeiMetro
+
+```
+
+
+```{r}
+# 或
+pick_not_fromTaipeiMetro <- !(example$residence %in% set_TaipeiMetro) # (..) 裡面會先運算完才做外面!的處理
+```
+
+<div class="alert alert-info">
+When operations involved with a certain object, you can use `with(the object, {...})` to conduct your operations. Within `{...}`, any objects called, but not defined, will be consider part of the elements of the certain object: 
+```{r}
+with(example,
+     {
+       set_TaipeiMetro <- c("Taipei","New Taipei")
+       pick_fromTaipeiMetro <- residence %in% set_TaipeiMetro # residence not defined
+       name[pick_fromTaipeiMetro] # name not defined
+     }) -> whoAreFromTaipeiMetro
+whoAreFromTaipeiMetro
+```
+</div>
+
+### Negation(否定用法)
+
+在「要/不要」向量前加上`!`會成為否定句的「要/不要」向量，元素裡的TRUE會轉成FALSE, FALSE則轉成TRUE。
+
+```{r}
+pick_not_fromTaipeiMetro <- ! pick_fromTaipeiMetro
+# 或
+pick_not_fromTaipeiMetro <- !(example$residence %in% set_TaipeiMetro) # (..) 裡面會先運算完才做外面!的處理
+```
+
+
+```{r}
+print(example[c("name","residence")])
+
+example$name[pick_fromTaipeiMetro]
+example$name[pick_not_fromTaipeiMetro]
+```
+
+
+### 資料狀態
+
+  * is.na: 有缺失
+  
+  * is.{class/type name}: is.integer, is.character, is.factor ... etc
+
+<div class="alert alert-warning">
+有時資料有缺失，在R裡會記成NA(即not available)如下例：
+
+```{r}
+
+x2 <- c(1,NA,10)
+y2 <- c(-1,NA,20)
+
+x3 <- c(NA,"小花")
+y3 <- c(NA,"小華")
+
+```
+
+```{r}
+class(x2)
+is.na(x2)
+```
+```{r}
+NaN
+is.nan
+```
+
+前述的關係判斷遇到NA時，結果都會是NA——即無法判斷。要知道向量內各元素值是否NA，可使用`is.na()`:
+
+```{r}
+x2
+is.na(x2)
+```
+
+</div>
+
+<div class="alert alert-danger">
+缺失資料的判斷一定要用`is.na`不能用`==NA`來判斷：
+```{r}
+c(22,NA,18) -> a
+a==NA
+is.na(a)
+```
+
+</div>
+
+###### example裡誰沒有體重資料{-}
+```{r pick_na}
+print(example[c("name","weight")])
+
+pick_na <- is.na(example$weight)
+example$name[pick_na]
+```
+
+
+<div class="alert alert-info">
+R還有一種特別的缺失資料NaN (即not a number)，出現在沒有定義的數學運算上，如：
+```{r}
+0/0
+```
+</div>
+
+
+### 字元偵測
+
+  * stringr::str_detect()
+  
+###### example裡誰喜歡美食{-}
+
+```{r pick_loveFood}
+print(example[c("name","hobby")])
+
+example$hobby == "美食"
+pick_loveFood <- stringr::str_detect(example$hobby,"美食")
+stringr::str_detect(example$hobby,"美食")
+example$name[pick_loveFood]
+```
+
+
+```{r}
+str_detect(example$hobby, "美食")
+# 否定
+!str_detect(example$hobby, "美食")
+# 
+str_detect(example$hobby, "美食", negate = T)
+```
+
+<div class="alert alert-danger">
+常有同學會有以下錯誤寫法: 
+```{r}
+pick_loveFood <- example$hobby == "美食"
+pick_loveFood
+```
+
+新增一個假設的hobby2:
+```{r}
+example[["hobby2"]] <- c("美食", "時尚", "美食", "旅遊")
+
+print(example[c("name", "hobby2")])
+pick_loveFood2 <- example$hobby2 == "美食"
+example$name[pick_loveFood2]
+```
+
+  * `==` 字串內容一模一樣。
+  
+  * `str_detect` 字串內容有關鍵字。
+</div>
+EDC3AD26-8AE7-4916-A00B-BC6048D19BF8	
+以下資料為[新北市垃圾車路線](https://data.ntpc.gov.tw/od/detail?oid=EDC3AD26-8AE7-4916-A00B-BC6048D19BF8)
+```{r}
+jsonlite::fromJSON("https://data.ntpc.gov.tw/api/datasets/EDC3AD26-8AE7-4916-A00B-BC6048D19BF8/json") ->
+  garbageRoutes
+```
+
+```{r}
+#  1 用typeof()函數查詢電腦實質上如何看待garbageRoutes。
+typeof(garbageRoutes)  
+#  2 用class()函數查詢電腦把它能進行的操作運算歸屬於哪一類型。
+class(garbageRoutes)
+```
+
+
+由於garbageRoutes的本質是list，所以我們可以使用list所有操作手法，而class為data frame表示它有比典型list的運作多了些工具與變化（後面章節會提）。
+
+```{r}
+# 由linename元素判斷垃圾車有幾條路線。
+factor(garbageRoutes$linename) -> garbageRoutes$linename
+levels(garbageRoutes$linename)
+  
+# 由linename創造： 可篩選出下午路線的「要/不要」向量pick_afternoonRoutes。
+pick_afternoonRoutes <-
+  stringr::str_detect(
+    garbageRoutes$linename,
+    "下午"
+  )
+garbageRoutes$linename[pick_afternoonRoutes]
+```
+
+#### 閱讀函數說明
+
+
+```{r}
+?str_detect
+```
+
+  * Title, Description, Usage, Arguments, Value, Examples
+  
+##### Title{-}
+
+<div class="alert alert-info">
+Detect the presence or absence of a pattern in a string.
+</div>
+
+##### Description{-}
+
+<div class="alert alert-info">
+Vectorised over string and pattern. Equivalent to grepl(pattern, x). See str_which() for an equivalent to grep(pattern, x).
+</div>
+
+##### Usage{-}
+
+<div class="alert alert-info">
+```{r, eval=F}
+str_detect(string, pattern, negate = FALSE)
+```
+</div>
+
+##### Arguments{-}
+
+<div class="alert alert-info">
+
+**string**:  	
+  input character vector. Either a character vector, or something coercible to one.
+
+**pattern**:  
+  Pattern to look for.
+  The default interpretation is a regular expression, as described in stringi::stringi-search-regex. Control options with regex().
+  Match a fixed string (i.e. by comparing only bytes), using fixed(). This is fast, but approximate. Generally, for matching human text, you'll want coll() which respects character matching rules for the specified locale.
+  Match character, word, line and sentence boundaries with boundary(). An empty pattern, "", is equivalent to boundary("character").	
+
+**negate**:  
+  If TRUE, return non-matching elements.
+</div>
+
+##### Value{-}
+
+<div class="alert alert-info">
+
+A logical vector.
+</div>
+
+##### Examples{-}
+
+<div class="alert alert-info">
+
+```{r}
+fruit <- c("apple", "banana", "pear", "pinapple")
+str_detect(fruit, "a")
+str_detect(fruit, "^a")
+str_detect(fruit, "a$")
+str_detect(fruit, "b")
+str_detect(fruit, "[aeiou]")
+
+# Also vectorised over pattern
+str_detect("aecfg", letters)
+
+# Returns TRUE if the pattern do NOT match
+str_detect(fruit, "^p", negate = TRUE)
+```
+</div>
+
+<div class="alert alert-success">
+[疾病管制署傳染病答問集](https://data.gov.tw/dataset/94195)
+```{r}
+CDC_chatbox <- readr::read_csv("http://od.cdc.gov.tw/pr/CDC_chatbox.csv")
+```
+
+找出問題中包含"肺炎"字眼的問題。
+<button class="flip">參考解答</button>
+<div style="display: none;">
+```{r}
+pick_pneumonia <- stringr::str_detect(CDC_chatbox$Question,"肺炎")
+CDC_chatbox$Question[pick_pneumonia]
+```
+</div>
+</div>
+
+
