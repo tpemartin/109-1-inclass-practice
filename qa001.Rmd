@@ -1,0 +1,111 @@
+
+```{r}
+gameStart <- function(input){
+  #先讓電腦選擇出哪招
+  computer = {
+    sample("scissor", "rock", "paper", 1)
+  }
+
+  # #使用者出招
+  # readline("Please enter scissor or rock or paper ")
+  you = {
+    if(input == "scissor"){
+      ("scissor")
+    }
+
+    if(input == "rock"){
+      ("rock")
+    }
+
+    if(input == "paper"){
+      ("paper")
+    }
+  }
+
+  #結果
+  end = c(computer && you)
+
+  #勝利
+  win = {
+    c((computer = "scissor" && you = "rock"),
+    (computer = "rock"  && you = "paper"),
+    (computer = "paper" && you = "scissor"))
+  }
+
+  #平手
+  tie = {
+      computer = you
+  }
+
+  #失敗
+  lose = {
+    c((computer = "scissor" && you = "paper"),
+    (computer = "rock"  && you = "scissor"),
+    (computer = "paper" && you = "rock"))
+  }
+
+  #回傳list(勝負結果)
+  {
+    if(end %in% win){
+    list(you,computer,1)
+    }
+
+    if(end %in% tie){
+    list(you,computer,0)
+    }
+
+    if(end %in% lose){
+    list(you,computer,-1)
+    }
+  }
+}
+```
+
+
+```{r}
+## 任務前提
+input <- "scissor"
+## 任務目標: 三選一的list output
+list_output <- {
+  
+  # 1 computer 三選一
+  computer <- sample("scissor", "rock", "paper", 1)
+  
+  # 2 定義you
+    you = {
+     if(input == "scissor"){
+       result <- ("scissor")
+     }
+
+    if(input == "rock"){
+      result <- ("rock")
+    }
+
+    # you block的last expression
+    if(input == "paper"){
+      result <- ("paper")
+    }
+    result
+  }
+
+  
+  # conditional execution
+  {
+    list(you,computer,1)
+
+  }
+  {
+    
+    list(you,computer,0)
+    
+  }
+  {
+    
+    list(you,computer,-1)
+    
+  }
+}
+
+
+```
+
