@@ -1,0 +1,43 @@
+
+
+```{r}
+get_painting_dynasty <- function(PaintingName){
+  
+  return(painting_dynasty)
+}
+```
+```{r}
+jsonlite::fromJSON("https://www.dropbox.com/s/ttw2j7nitc35vfx/palaceMuseumPainting.json?dl=1", simplifyDataFrame = F) -> painting
+```
+
+4.5(a)
+```{r}
+# 任務給定條件
+PaintingName <- "主要題名：五代後蜀滕昌祐蝶戲長春圖　卷"
+
+# 任務目標
+painting_dynasty <- {
+  
+}
+```
+
+4.5(b)
+```{r}
+# 任務給定條件
+PaintingName <- "主要題名：清董誥四景花卉（一）　冊　春景花卉之三"
+
+# 任務目標
+painting_dynasty <- {
+  
+}
+
+```
+
+打包成function
+```{r}
+get_painting_dynasty <- function(PaintingName) {
+  
+}
+
+```
+
